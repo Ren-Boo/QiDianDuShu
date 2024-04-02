@@ -218,6 +218,8 @@ if (auto.service == null) {
             } else {
                 console.log("听书活动已结束")
             }
+            // var g = require('game.js');
+            // g.step()
             log("限时任务，已完成，开始签到");
             log("———————");
             //签到
