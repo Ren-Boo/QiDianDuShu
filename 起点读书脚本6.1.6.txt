@@ -1,14 +1,14 @@
 console.show()
 auto.waitFor()
-console.setTitle("6.1.5");
+console.setTitle("6.1.6");
 console.setPosition(0, device.height / 1.6)
 console.setSize(device.width / 2, device.width / 2)
 if (auto.service == null) {
     log("请先开启无障碍服务！");
 } else {
     log("无障碍服务已开启");
-    log("开启静音");
-    device.setMusicVolume(0)
+    // log("开启静音");
+    // device.setMusicVolume(0)
     home()
     sleep(1000);
     launch("com.qidian.QDReader");
@@ -76,7 +76,7 @@ if (auto.service == null) {
                             click("我知道了", 0)
                         }
                         sleep(3000);
-                    }else{
+                    } else {
                         break;
                     }
                 } while (text("看视频领福利").exists());
@@ -541,6 +541,14 @@ function video_look() {
                 break;
             }
         }
+        if (textContains("继续观看").exists()) {
+            textContains("继续观看").click()
+            sleep(1500);
+        }
+        if (textContains("继续听完").exists()) {
+            textContains("继续听完").click()
+            sleep(1500);
+        }
     }
     while (!video_flag.includes("已"));
     thread.interrupt()
@@ -590,7 +598,7 @@ function video_look() {
         }
         sleep(3000);
     }
-    while (!(textContains("福利中心").exists() || textContains("视频奖励").exists()));
+    while (!(textContains("福利中心").exists() || textContains("视频奖励").exists() || text("签到").exists()));
     log("关闭视频")
     log("———————");
 }
