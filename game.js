@@ -31,6 +31,15 @@ game.step = function () {
             } while (!findView("福利中心"));
         }
     }
+    sleep(1000);
+    if (text("领奖励").exists()) {
+        click("领奖励", 0)
+        sleep(2000);
+        if (text("我知道了").exists()) {
+            click("我知道了", 0)
+            sleep(1000);
+        }
+    }
     log("玩游戏 结束");
 }
     
