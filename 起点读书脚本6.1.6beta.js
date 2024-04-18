@@ -41,14 +41,14 @@ if (auto.service == null) {
         swipe(device.width - 50, device.height / 4, device.width - 50, device.height / 2, 500)
         sleep(3000);
         //方案一
-        let uc = id("viewPager").className("androidx.viewpager.widget.ViewPager").scrollable(true).findOne().bounds()
-        var x1 = uc.right;
-        var y1 = uc.bottom;
-        click((x1 - 10), (y1 + 10))
+        // let uc = id("viewPager").className("androidx.viewpager.widget.ViewPager").scrollable(true).findOne().bounds()
+        // var x1 = uc.right;
+        // var y1 = uc.bottom;
+        // click((x1 - 10), (y1 + 10))
         //方案二
         // click(device.width - 150, device.height - 150)
         //方案三
-        // id("view_tab_title_title").className("android.widget.TextView").text("我").findOne().parent().click()
+        id("view_tab_title_title").className("android.widget.TextView").text("我").findOne().parent().click()
         sleep(3000);
         if (text("福利中心").exists()) {
             log("成功打开“我”");
@@ -146,6 +146,9 @@ if (auto.service == null) {
                 }
             }
             while (text("看视频").exists());
+            log("玩游戏");
+            var g = require('game.js');
+            g.step()
             log("听书");
             if (text("当日听书1分钟").exists()) {
                 let ts1 = text("当日听书1分钟").findOne().bounds()
