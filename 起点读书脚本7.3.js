@@ -1,6 +1,6 @@
 console.show()
 auto.waitFor()
-console.setTitle("6.1.7");
+console.setTitle("7.3");
 console.setPosition(0, device.height / 1.6)
 console.setSize(device.width / 2, device.width / 2)
 if (auto.service == null) {
@@ -22,6 +22,8 @@ if (auto.service == null) {
         }
     }
     while (!(text("书架").exists() && text("精选").exists() && text("发现").exists() && text("我").exists()))
+    sleep(3000);
+    back()
     if (text("书架").exists() && text("精选").exists() && text("发现").exists() && text("我").exists()) {
         log("起点已启动成功");
         sleep(1000);
@@ -63,6 +65,22 @@ if (auto.service == null) {
             log("已进入福利中心");
             log("———————");
             sleep(5000);
+            if (textContains("立即开启").exists()) {
+                click("立即开启", 0)
+                sleep(3000);
+                if (textContains("恭喜你获得").exists()) {
+                    back()
+                    sleep(3000);
+                }
+                click("福利中心", 0)
+                do {
+                    log("缓冲中……");
+                    sleep(1000);
+                }
+                while (!(className("android.view.View").text("每日视频福利").exists() || text("每日福利").exists()));
+                log("重新进入福利中心");
+                log("———————");
+            }
             //每日视频
             if (textContains("每日福利").exists()) {
                 do {
@@ -80,6 +98,10 @@ if (auto.service == null) {
                         break;
                     }
                 } while (text("看视频领福利").exists());
+                if (textContains("恭喜你获得").exists()) {
+                    back()
+                    sleep(3000);
+                }
                 if (textContains("看视频开宝箱").exists()) {
                     log("开宝箱");
                     textContains("看视频开宝箱").click()
@@ -116,6 +138,10 @@ if (auto.service == null) {
                     }
                 }
                 while (video_loop != "再" || video_loop <= 8);
+                if (textContains("恭喜你获得").exists()) {
+                    back()
+                    sleep(3000);
+                }
             }
             sleep(3000);
             log("每日视频福利已刷完，开始刷限时任务");
@@ -161,6 +187,9 @@ if (auto.service == null) {
                     let ordinate_new = ordinate / 2
                     click(abscissa_new, ordinate_new)
                     sleep(3000);
+                }
+                if (text("免费听").exists() || text("定时").exists() || text("加书架").exists() || text("目录").exists()) {
+                    sleep(3000);
                     let i = 0;
                     do {
                         i++
@@ -173,12 +202,19 @@ if (auto.service == null) {
                     }
                     while (i < 70);
                     back()
-                    do {
-                        log("缓冲中……");
-                        sleep(1000);
+                    sleep(3000);
+                    if (textContains("加入书架").exists()) {
+                        click("取消", 0)
                     }
-                    while (!text("听原创小说").exists());
-                    back()
+                    sleep(3000);
+                    if (text("听原创小说").exists()) {
+                        do {
+                            log("缓冲中……");
+                            sleep(1000);
+                        }
+                        while (!text("听原创小说").exists());
+                        back()
+                    }
                     do {
                         log("缓冲中……");
                         sleep(1000);
@@ -297,160 +333,8 @@ if (auto.service == null) {
                         }
                     }
                     log("———————");
-                    if (textContains("章节卡碎片").exists()) {
-                        //抽奖活动
-                        log("抽奖活动")
-                        sleep(2000);
-                        if (textContains("抽奖机会").exists() || text("立即抽奖").exists() || text("机会+1").exists() || textContains("点击抽奖").exists()) {
-                            log("开始抽奖")
-                            if (text("立即抽奖").exists()) {
-                                text("立即抽奖").findOne().click()
-                            } else if (text("机会+1").exists()) {
-                                text("机会+1").findOne().click()
-                            } else if (textContains("抽奖机会").exists()) {
-                                textContains("抽奖机会").findOne().click()
-                            } else if (textContains("点击抽奖").exists()) {
-                                textContains("点击抽奖").findOne().click()
-                            }
-                            do {
-                                sleep(1000);
-                                if (className("android.view.View").text("明天再来").exists()) {
-                                    break;
-                                }
-                                if (className("android.view.View").text("看视频抽奖喜+1").exists()) {
-                                    log("看视频抽奖")
-                                    className("android.view.View").text("看视频抽奖喜+1").findOne().click()
-                                } else if (className("android.view.View").text("抽 奖").exists()) {
-                                    log("赠送抽奖")
-                                    className("android.view.View").text("抽 奖").findOne().click()
-                                }
-                                let video_course = true
-                                let j = 0;
-                                do {
-                                    j++
-                                    sleep(1000);
-                                    if (j > 4 || className("android.view.View").text("明天再来").exists()) {
-                                        video_course = false
-                                        break;
-                                    }
-                                    log("等待中……")
-                                }
-                                while (!(textContains("观看视频").exists() || textContains("观看完视频").exists()))
-                                if (video_course) {
-                                    video_look()
-                                }
-                                sleep(2000);
-                                if (text("我知道了").exists()) {
-                                    click("我知道了", 0)
-                                    sleep(2000);
-                                }
-                            }
-                            while (textContains("剩余") && ((className("android.view.View").text("抽 奖").exists()) || className("android.view.View").text("看视频抽奖喜+1").exists()));
-                            sleep(2000);
-                            log("抽奖活动结束")
-                            log("———————");
-                            if (className("android.view.View").text("明天再来").exists()) {
-                                log("返回主界面")
-                                back()
-                            } else {
-                                log("错误");
-                            }
-                        } else {
-                            log("抽奖活动结束");
-                            log("———————");
-                            if (className("android.view.View").text("明天再来").exists()) {
-                                log("返回主界面")
-                                back()
-                            } else {
-                                log("返回主界面")
-                                back()
-                            }
-                        }
-                    } else {
-                        //签到福利——起点币
-                        log("概率得起点币活动");
-                        sleep(3000);
-                        do {
-                            if (!textContains("看视频").exists()) {
-                                break;
-                            }
-                            textContains("看视频").findOne().click()
-                            video_look()
-                            sleep(3000);
-                            if (text("我知道了").exists()) {
-                                click("我知道了", 0)
-                                sleep(3000);
-                            }
-                        }
-                        while (textContains("每天看视频").exists());
-                        sleep(2000);
-                        //抽奖
-                        log("概率得起点币活动结束")
-                        log("———————");
-                        log("抽奖活动")
-                        sleep(2000);
-                        if (text("立即抽奖").exists() || text("机会+1").exists()) {
-                            log("开始抽奖")
-                            if (text("立即抽奖").exists()) {
-                                text("立即抽奖").findOne().click()
-                            } else if (text("机会+1").exists()) {
-                                text("机会+1").findOne().click()
-                            }
-                            do {
-                                sleep(1000);
-                                if (className("android.view.View").text("明天再来").exists()) {
-                                    break;
-                                }
-                                if (className("android.view.View").text("看视频抽奖喜+1").exists()) {
-                                    log("看视频抽奖")
-                                    className("android.view.View").text("看视频抽奖喜+1").findOne().click()
-                                } else if (className("android.view.View").text("抽 奖").exists()) {
-                                    log("赠送抽奖")
-                                    className("android.view.View").text("抽 奖").findOne().click()
-                                }
-                                let video_course = true
-                                let j = 0;
-                                do {
-                                    j++
-                                    sleep(1000);
-                                    if (j > 4 || className("android.view.View").text("明天再来").exists()) {
-                                        video_course = false
-                                        break;
-                                    }
-                                    log("等待中……")
-                                }
-                                while (!(textContains("观看视频").exists() || textContains("观看完视频").exists()))
-                                if (video_course) {
-                                    video_look()
-                                }
-                                sleep(2000);
-                                if (text("我知道了").exists()) {
-                                    click("我知道了", 0)
-                                    sleep(2000);
-                                }
-                            }
-                            while (textContains("剩余") && ((className("android.view.View").text("抽 奖").exists()) || className("android.view.View").text("看视频抽奖喜+1").exists()));
-                            sleep(2000);
-                            log("抽奖活动结束")
-                            log("———————");
-                            if (className("android.view.View").text("明天再来").exists()) {
-                                log("返回主界面")
-                                back()
-                            } else {
-                                log("错误");
-                            }
-                        } else {
-                            log("抽奖活动结束");
-                            log("———————");
-                            if (className("android.view.View").text("明天再来").exists()) {
-                                log("返回主界面")
-                                back()
-                            } else {
-                                log("返回主界面")
-                                back()
-                            }
-                        }
-                    }
+                    log("返回主界面")
+                    back()
                 } else {
                     log("———————");
                     log("未进入今日福利");
@@ -461,8 +345,8 @@ if (auto.service == null) {
             }
             log("———————");
             sleep(1000);
-            var mokuai_jilisuipian = require('激励碎片.js');
-            mokuai_jilisuipian.step()
+            // var mokuai_jilisuipian = require('激励碎片.js');
+            // mokuai_jilisuipian.step()
             log("脚本已结束，记得清理auto.js后台");
             log("控制台3秒后自动关闭");
             sleep(3000);
@@ -479,13 +363,22 @@ function video_look() {
     //计时
     log("———————");
     log("看视频");
+    sleep(2000);
+    if (textContains("播放将消耗流量").exists()) {
+        click("继续播放", 0)
+    }
     //判断是否进入视频播放页面
+    let m = 0;
     do {
+        m++
         sleep(1000);
         if (textContains("可获得奖励").exists()) {
             break;
         } else {
             log("缓冲……")
+        }
+        if (m > 5 && !(textContains("领取奖励").exists()||textContains("可获得奖励").exists())) {
+            return;
         }
     }
     while (!textContains("可获得奖励").exists())
